@@ -1,7 +1,8 @@
 import { Space } from 'antd';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router'
-import { styledTitle, styledHomeDiv, styledContainer, styledCard } from '../styles/Home.styles';
+import { styledTitle, styledHomeDiv, styledContainer } from '../styles/Home.styles';
 import CardPerson from '../components/CardPerson/CardPerson';
 import characterApi from '../api/services/charactersApi';
 import { Pagination } from 'antd';
@@ -27,7 +28,7 @@ export default function Home({ info, characters, query }) {
       query: { currentPage: page },
     });
   }
-  
+
   return (
     <div className={styledHomeDiv}>
       <Head>
@@ -42,8 +43,14 @@ export default function Home({ info, characters, query }) {
         size='large'
         className={styledContainer}
       >
-        {characters.map((item, inx) => (
-          <CardPerson key={inx} person={item} />
+        {characters.map(({ id, ...item }, inx) => (
+
+          // <Link key={inx} href={{ pathname: '/character/', query: { id: `${id}`, currentPage: page } }}>
+          <Link key={inx} href={`/character/${id}`}>
+            <div className="styled-container__div">
+              <CardPerson person={item} />
+            </div>
+          </Link>
         ))}
 
         <Pagination

@@ -26,6 +26,10 @@ const styledContainer = css`
     display: contents;
   }
 
+  .styled-container__div {
+    width: 100%;
+  }
+
   .styled-container__pagination {
     border-radius: 0.5rem;
     background: #3c3e44;
