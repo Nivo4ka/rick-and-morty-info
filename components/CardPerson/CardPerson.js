@@ -1,7 +1,5 @@
 import { Card } from 'antd';
 import styledCard from './CardPerson.styles';
-import axios from 'axios';
-// import episodeApi from '../api/services/episodesApi';
 
 const CardPerson = ({ person }) => {
   return (

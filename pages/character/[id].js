@@ -1,12 +1,13 @@
 import characterApi from '../../api/services/charactersApi';
 import episodeApi from '../../api/services/episodesApi';
+import styledCharacterPage from '../../styles/CharacterPage.styles';
+import Head from 'next/head';
 
 export async function getStaticProps({ params }) {
   const data = await characterApi.getCharacterById(+params.id);
   const episodes = data.data.episode.map(async (item) => {
     const data = await episodeApi.getEpisodeById(`${item.split('episode/')[1]}`);
     return data.data;
-    // console.log(data.data);
   })
   const episodeRes = await Promise.all(episodes);
   return {
@@ -46,26 +47,27 @@ export async function getStaticPaths() {
 }
 
 const CharacterPage = ({ character, episodes }) => {
-  // console.log(episodes);
   return (
-    <div>
-      <div className="styled-card__image">
+    <div className={styledCharacterPage}>
+      <Head>
+        <title>{character.name}</title>
+      </Head>
+      <div className="styled-characterpage__container">
         <img
-          // className="styled-card__image"
+          className="styled-characterpage__image"
           src={character.image}
           alt={character.name}
         />
-      </div>
-
-      <div className="styled-card__info-section">
-        <h2>{character.name}</h2>
-        <p>{character.status} - {character.species}</p>
-        <p className="styled-card__name-point">Last known location:</p>
-        <p>{character.location.name}</p>
-        <p className="styled-card__name-point">Episodes:</p>
-        {episodes.map((item, index) => (
-          <p key={index}>{item.name}</p>
-        ))}
+        <div className="styled-characterpage__info-section">
+          <h2>{character.name}</h2>
+          <p>{character.status} - {character.species}</p>
+          <p className="styled-card__name-point">Last known location:</p>
+          <p>{character.location.name}</p>
+          <p className="styled-card__name-point">Episodes:</p>
+          {episodes.map((item, index) => (
+            <p key={index}>{item.name}</p>
+          ))}
+        </div>
       </div>
     </div>)
 };
