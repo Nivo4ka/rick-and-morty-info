@@ -1,16 +1,26 @@
 import { Space } from 'antd';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import axios from 'axios';
 import { styledTitle, styledHomeDiv, styledContainer } from '../styles/Home.styles';
 import CardPerson from '../components/CardPerson/CardPerson';
 import characterApi from '../api/services/charactersApi';
+import episodeApi from '../api/services/episodesApi';
 import { Pagination } from 'antd';
 
 export async function getServerSideProps({ params, query, ...props }) {
   const data = await characterApi.getAllCharacters(query.currentPage || 1);
   const info = data.data.info;
-  const characters = data.data.results;
+  let characters = data.data.results;
+  // console.log(characters);
+  // characters = data.data.results.map(async (item) => {
+  //   let data = await episodeApi.getEpisodeById(`${item.episode[0].split('episode/')[1]}`);
+  //   data = JSON.parse(JSON.stringify(data));
+  //   const firstEpisode = data.data.name;
+  //   item.firstEpisode = firstEpisode
+  //   return item;
+  // })
   return {
     props: {
       info,
@@ -47,9 +57,9 @@ export default function Home({ info, characters, query }) {
 
           // <Link key={inx} href={{ pathname: '/character/', query: { id: `${id}`, currentPage: page } }}>
           <Link key={inx} href={`/character/${id}`}>
-            <div className="styled-container__div">
+            <a className="styled-container__div">
               <CardPerson person={item} />
-            </div>
+            </a>
           </Link>
         ))}
 
