@@ -1,8 +1,15 @@
 import 'antd/dist/antd.css';
+import { styledTitle, styledHomeDiv, styledMainComp } from '../styles/Home.styles';
+
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Component {...pageProps} />
+    <div className={styledMainComp}>
+      <div className={styledHomeDiv}>
+        <h2 className={styledTitle}>Rick and Morty Info</h2>
+      </div>
+      <Component {...pageProps} />
+    </div>
   )
 }
 

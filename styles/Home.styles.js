@@ -1,4 +1,16 @@
-import { css } from '@emotion/css';
+import { css, injectGlobal } from '@emotion/css';
+
+injectGlobal`
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    margin: 0;
+  }
+`
 
 const styledTitle = css`
   font-size: 35px;
@@ -13,6 +25,10 @@ const styledHomeDiv = css`
   align-items: center;
 `;
 
+const styledMainComp = css`
+  height: 100%;
+`;
+
 const styledContainer = css`
   background: #202329;
   width: 100%;
@@ -20,6 +36,7 @@ const styledContainer = css`
   padding: 10px;
   display: flex;
   align-items: center;
+  height: 100%;
 
   .ant-space-item {
     width: 100%;
@@ -28,6 +45,7 @@ const styledContainer = css`
 
   .styled-container__div {
     width: 100%;
+    display: contents;
   }
 
   .styled-container__pagination {
@@ -69,4 +87,5 @@ export {
   styledHomeDiv,
   styledContainer,
   styledCard,
+  styledMainComp,
 };

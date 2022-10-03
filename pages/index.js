@@ -41,9 +41,6 @@ export default function Home({ info, characters, query }) {
       <Head>
         <title>Rick & Morty DB</title>
       </Head>
-      <div>
-        <h2 className={styledTitle}>Rick and Morty Info</h2>
-      </div>
       <Space
         direction='vertical'
         align='center'
@@ -51,8 +48,6 @@ export default function Home({ info, characters, query }) {
         className={styledContainer}
       >
         {characters.map(({ id, ...item }, inx) => (
-
-          // <Link key={inx} href={{ pathname: '/character/', query: { id: `${id}`, currentPage: page } }}>
           <Link key={inx} href={`/character/${id}`}>
             <a className="styled-container__div">
               <CardPerson person={item} />
