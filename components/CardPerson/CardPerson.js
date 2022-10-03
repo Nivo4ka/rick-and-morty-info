@@ -1,7 +1,7 @@
 import { Card } from 'antd';
 import styledCard from './CardPerson.styles';
 
-const CardPerson = ({person}) => {
+const CardPerson = ({ person }) => {
   return (
     <Card
       hoverable
@@ -21,9 +21,9 @@ const CardPerson = ({person}) => {
         <h2>{person.name}</h2>
         <p>{person.status} - {person.species}</p>
         <p className="styled-card__name-point">Last known location:</p>
-        <p>Narnia Dimension</p>
+        <p>{person.location.name}</p>
         <p className="styled-card__name-point">First seen in:</p>
-        <p>bla bla bla</p>
+        <p>{person.firstEpisode}</p>
       </div>
     </Card>)
 };
