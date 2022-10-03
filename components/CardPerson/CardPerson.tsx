@@ -1,4 +1,5 @@
 import { Card } from 'antd';
+import React from 'react';
 import styledCard from './CardPerson.styles';
 
 const CardPerson = ({ person }) => {
@@ -6,7 +7,6 @@ const CardPerson = ({ person }) => {
     <Card
       hoverable
       className={styledCard}
-      style={{ width: '100%' }}
       bodyStyle={{ padding: 0 }}
     >
       <div className="styled-card__image">
@@ -25,7 +25,7 @@ const CardPerson = ({ person }) => {
         <p className="styled-card__name-point">First seen in:</p>
         <p>{person.firstEpisode}</p>
       </div>
-    </Card>)
+    </Card>);
 };
 
 export default CardPerson;

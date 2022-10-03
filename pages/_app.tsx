@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
+import React from 'react';
 import { styledTitle, styledHomeDiv, styledMainComp } from '../styles/Home.styles';
-
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
       </div>
       <Component {...pageProps} />
     </div>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

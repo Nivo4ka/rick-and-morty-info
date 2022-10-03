@@ -1,22 +1,23 @@
-import { Space } from 'antd';
+import { Space, Pagination } from 'antd';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { styledTitle, styledHomeDiv, styledContainer } from '../styles/Home.styles';
+import React from 'react';
+import { styledHomeDiv, styledContainer } from '../styles/Home.styles';
 import CardPerson from '../components/CardPerson/CardPerson';
 import characterApi from '../api/services/charactersApi';
 import episodeApi from '../api/services/episodesApi';
-import { Pagination } from 'antd';
+import type { CharacterType, InfoType } from '../types/main.types';
 
 export async function getServerSideProps({ params, query, ...props }) {
   const data = await characterApi.getAllCharacters(query.currentPage || 1);
   const info = data.data.info;
   let characters = data.data.results;
-  characters = data.data.results.map(async (item) => {
+  characters = characters.map(async (item: { episode: string[]; firstEpisode: string }) => {
     const data = await episodeApi.getEpisodeById(`${item.episode[0].split('episode/')[1]}`);
     item.firstEpisode = data.data.name;
     return item;
-  })
+  });
   const charactersRes = await Promise.all(characters);
   return {
     props: {
@@ -25,16 +26,24 @@ export async function getServerSideProps({ params, query, ...props }) {
       query,
     },
   };
+}
+
+type PropsType = {
+  info: InfoType;
+  characters: CharacterType[];
+  query: {
+    currentPage: number;
+  };
 };
 
-export default function Home({ info, characters, query }) {
+const Home: React.FC<PropsType> = ({ info, characters, query }) => {
   const router = useRouter();
-  const onChangePage = (page) => {
+  const onChangePage = (page: number) => {
     router.push({
       pathname: router.pathname,
       query: { currentPage: page },
     });
-  }
+  };
 
   return (
     <div className={styledHomeDiv}>
@@ -42,9 +51,9 @@ export default function Home({ info, characters, query }) {
         <title>Rick & Morty DB</title>
       </Head>
       <Space
-        direction='vertical'
-        align='center'
-        size='large'
+        direction="vertical"
+        align="center"
+        size="large"
         className={styledContainer}
       >
         {characters.map(({ id, ...item }, inx) => (
@@ -67,4 +76,6 @@ export default function Home({ info, characters, query }) {
       </Space>
     </div>
   );
-}
+};
+
+export default Home;

@@ -1,6 +1,6 @@
 import { css, injectGlobal } from '@emotion/css';
 
-injectGlobal`
+export default injectGlobal`
   *,
   *::before,
   *::after {
@@ -10,7 +10,7 @@ injectGlobal`
   body {
     margin: 0;
   }
-`
+`;
 
 const styledTitle = css`
   font-size: 35px;
