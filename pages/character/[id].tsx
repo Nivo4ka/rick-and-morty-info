@@ -1,15 +1,17 @@
+/* eslint-disable no-await-in-loop */
 import Head from 'next/head';
+import type { GetStaticProps, GetStaticPaths } from 'next';
 import { Menu } from 'antd';
 import React from 'react';
 import characterApi from '../../api/services/charactersApi';
 import episodeApi from '../../api/services/episodesApi';
 import styledCharacterPage from '../../styles/CharacterPage.styles';
-import type { ValueType } from '../../types/main.types';
+import type { CharacterType, EpisodeType, ValueType } from '../../types/main.types';
 
-export async function getStaticProps({ params }) {
-  const data = await characterApi.getCharacterById(+params.id);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const data = await characterApi.getCharacterById(+params!.id!);
   const episodes = data.data.episode.map(async (item) => {
-    const data = await episodeApi.getEpisodeById(`${item.split('episode/')[1]}`);
+    const data = await episodeApi.getEpisodeById(+item.split('episode/')[1]);
     const value: ValueType = {
       label: data.data.name,
       key: data.data.id,
@@ -23,10 +25,10 @@ export async function getStaticProps({ params }) {
       episodes: episodeRes,
     },
   };
-}
+};
 
-export async function getStaticPaths() {
-  let data = await characterApi.getAllCharacters(1);
+export const getStaticPaths: GetStaticPaths = async () => {
+  const data = await characterApi.getAllCharacters(1);
   let paths = [];
   paths = data.data.results.map((item) => {
     return {
@@ -35,10 +37,12 @@ export async function getStaticPaths() {
       },
     };
   });
-  while (data.data.info.next !== null) {
+
+  let dt = data.data;
+  while (dt.info.next !== null) {
     // eslint-enable no-await-in-loop next-line
-    data = await characterApi.getAllCharacters(`${data.data.info.next.split('page=')[1]}`);
-    paths = paths.concat(data.data.results.map((item: { id: number }) => {
+    dt = (await characterApi.getAllCharacters(+data.data.info.next!.split('page=')[1])).data;
+    paths = paths.concat(dt.results.map((item: { id: number }) => {
       return {
         params: {
           id: `${item.id}`,
@@ -52,9 +56,14 @@ export async function getStaticPaths() {
     paths: pathsRes,
     fallback: true,
   };
-}
+};
 
-const CharacterPage = ({ character, episodes }) => {
+type PropsType = {
+  character: CharacterType;
+  episodes: EpisodeType[];
+};
+
+const CharacterPage: React.FC<PropsType> = ({ character, episodes }) => {
   const menu = [{
     label: <p className="styled-card__name-point">Episodes:</p>,
     key: 'nameMenu 1',

@@ -1,8 +1,13 @@
 import { Card } from 'antd';
 import React from 'react';
+import type { CharacterType } from '../../types/main.types';
 import styledCard from './CardPerson.styles';
 
-const CardPerson = ({ person }) => {
+type PropsType={
+  person: CharacterType;
+};
+
+const CardPerson:React.FC<PropsType> = ({ person }) => {
   return (
     <Card
       hoverable

@@ -1,4 +1,5 @@
 import { Space, Pagination } from 'antd';
+import type { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -9,16 +10,17 @@ import characterApi from '../api/services/charactersApi';
 import episodeApi from '../api/services/episodesApi';
 import type { CharacterType, InfoType } from '../types/main.types';
 
-export async function getServerSideProps({ params, query, ...props }) {
-  const data = await characterApi.getAllCharacters(query.currentPage || 1);
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const data = await characterApi.getAllCharacters(+query.currentPage! || 1);
   const info = data.data.info;
-  let characters = data.data.results;
-  characters = characters.map(async (item: { episode: string[]; firstEpisode: string }) => {
-    const data = await episodeApi.getEpisodeById(`${item.episode[0].split('episode/')[1]}`);
+  const characters = data.data.results;
+  let char = [];
+  char = characters.map(async (item) => {
+    const data = await episodeApi.getEpisodeById(+item.episode[0].split('episode/')[1]);
     item.firstEpisode = data.data.name;
     return item;
   });
-  const charactersRes = await Promise.all(characters);
+  const charactersRes = await Promise.all(char);
   return {
     props: {
       info,
@@ -26,7 +28,7 @@ export async function getServerSideProps({ params, query, ...props }) {
       query,
     },
   };
-}
+};
 
 type PropsType = {
   info: InfoType;
@@ -56,8 +58,8 @@ const Home: React.FC<PropsType> = ({ info, characters, query }) => {
         size="large"
         className={styledContainer}
       >
-        {characters.map(({ id, ...item }, inx) => (
-          <Link key={inx} href={`/character/${id}`}>
+        {characters.map((item, inx) => (
+          <Link key={inx} href={`/character/${item.id}`}>
             <a className="styled-container__div">
               <CardPerson person={item} />
             </a>

@@ -1,15 +1,16 @@
+import type { CharactersResponseType, CharacterType } from '../../types/main.types';
 import instance from '../httpCommon';
 
-const getAllCharacters = (currentPage) => {
-  return instance.get('/character', {
+const getAllCharacters = (currentPage: number) => {
+  return instance.get<CharactersResponseType>('/character', {
     params: {
       page: currentPage,
     },
   });
 };
 
-const getCharacterById = (id) => {
-  return instance.get(`/character/${id}`);
+const getCharacterById = (id: number) => {
+  return instance.get<CharacterType>(`/character/${id}`);
 };
 
 export default { getAllCharacters, getCharacterById };

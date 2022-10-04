@@ -6,7 +6,7 @@ export type ValueType = {
 export type LocationType = {
   name: string;
   url: string;
-}
+};
 
 export type CharacterType = {
   id: number;
@@ -24,9 +24,29 @@ export type CharacterType = {
   firstEpisode?: string;
 };
 
+export type EpisodeType = {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+  characters: string;
+  url: string;
+  created: string;
+};
+
 export type InfoType = {
   count: number;
   pages: number;
   next?: string;
   prev?: string;
+};
+
+export type CharactersResponseType = {
+  info: InfoType;
+  results: CharacterType[];
+};
+
+export type EpisodesResponseType = {
+  info: InfoType;
+  results: EpisodeType[];
 };
