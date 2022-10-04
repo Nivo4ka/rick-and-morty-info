@@ -1,6 +1,9 @@
+import type { ReactNode } from 'react';
+
 export type ValueType = {
-  label: string;
+  label: ReactNode;
   key: number;
+  icon?: string;
 };
 
 export type LocationType = {
@@ -29,7 +32,7 @@ export type EpisodeType = {
   name: string;
   air_date: string;
   episode: string;
-  characters: string;
+  characters: string[];
   url: string;
   created: string;
 };
@@ -47,6 +50,7 @@ export type CharactersResponseType = {
 };
 
 export type EpisodesResponseType = {
+  data: EpisodesResponseType;
   info: InfoType;
   results: EpisodeType[];
 };

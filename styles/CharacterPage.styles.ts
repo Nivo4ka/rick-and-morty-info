@@ -45,4 +45,48 @@ export default css`
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .ant-menu-sub.ant-menu-inline > .ant-menu-item {
+    height: fit-content;
+  }
+
+  .styled-characterpage__menu-item {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 25px !important;
+
+    .styled-characterpage__menu-item__a {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .styled-characterpage__image-div {
+      padding-right: 15px;
+      width: fit-content;
+      height: fit-content;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    p {
+      width: fit-content;
+      margin: 0;
+    }
+
+    .ant-menu-title-content {
+      display: flex;
+      align-items: center;
+      box-sizing: content-box;
+    }
+  }
 `;
