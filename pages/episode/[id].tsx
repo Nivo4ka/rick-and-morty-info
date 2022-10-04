@@ -9,22 +9,22 @@ import styledCharacterPage from '../../styles/CharacterPage.styles';
 import type { CharacterType, EpisodeType } from '../../types/main.types';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const data = await characterApi.getCharacterById(+params!.id!);
-  const episodes = data.data.episode.map(async (item) => {
-    const data = await episodeApi.getEpisodeById(+item.split('episode/')[1]);
+  const data = await episodeApi.getEpisodeById(+params!.id!);
+  const characters = data.data.characters.map(async (item) => {
+    const data = await characterApi.getCharacterById(+item.split('character/')[1]);
     return data.data;
   });
-  const episodeRes = await Promise.all(episodes);
+  const characterRes = await Promise.all(characters);
   return {
     props: {
-      character: data.data,
-      episodes: episodeRes,
+      episode: data.data,
+      characters: characterRes,
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await characterApi.getAllCharacters(1);
+  const { data } = await episodeApi.getAllEpisodes(1);
   let paths = [];
   paths = data.results.map((item) => {
     return {
@@ -37,7 +37,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   let dt = data;
   while (dt.info.next !== null) {
     // eslint-enable no-await-in-loop next-line
-    const { data } = await characterApi.getAllCharacters(+dt.info.next!.split('page=')[1]);
+    const { data } = await episodeApi.getAllEpisodes(+dt.info.next!.split('page=')[1]);
     dt = data;
     paths = paths.concat(dt.results.map((item) => {
       return {
@@ -56,38 +56,31 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 type PropsType = {
-  character: CharacterType;
-  episodes: EpisodeType[];
+  characters: CharacterType[];
+  episode: EpisodeType;
 };
 
-const CharacterPage: React.FC<PropsType> = ({ character, episodes }) => {
+const CharacterPage: React.FC<PropsType> = ({ characters, episode }) => {
   return (
     <div className={styledCharacterPage}>
       <Head>
-        <title>{character.name}</title>
+        <title>{episode.name}</title>
       </Head>
       <div className="styled-characterpage__container">
-        <h2>{character.name}</h2>
-        <img
-          className="styled-characterpage__image"
-          src={character.image}
-          alt={character.name}
-        />
+        <h2>{episode.name} - {episode.episode}</h2>
         <div className="styled-characterpage__info-section">
-          <p>{character.status} - {character.species}</p>
-          <p className="styled-card__name-point">Gender:</p>
-          <p>{character.gender}</p>
-          <p className="styled-card__name-point">Origin:</p>
-          <p>{character.origin.name}</p>
-          <p className="styled-card__name-point">Last known location:</p>
-          <p>{character.location.name}</p>
+          <p className="styled-card__name-point">Episode release date:</p>
+          <p>{episode.air_date}</p>
           <Menu
             theme="dark"
             mode="inline"
           >
-            <Menu.SubMenu key="subMenu1" title="Episodes:">
-              {episodes.map((item) => (
+            <Menu.SubMenu key="subMenu1" title="Characters:">
+              {characters.map((item) => (
                 <Menu.Item key={item.id} className="styled-characterpage__menu-item">
+                  <div className="styled-characterpage__image-div">
+                    <img src={item.image} alt={item.name} />
+                  </div>
                   <p>{item.name}</p>
                 </Menu.Item>
               ))}
