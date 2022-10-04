@@ -58,6 +58,13 @@ export default css`
     justify-content: flex-start;
     padding-left: 25px !important;
 
+    .styled-characterpage__menu-item__a {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
     .styled-characterpage__image-div {
       padding-right: 15px;
       width: fit-content;

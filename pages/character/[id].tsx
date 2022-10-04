@@ -3,6 +3,7 @@ import Head from 'next/head';
 import type { GetStaticProps, GetStaticPaths } from 'next';
 import { Menu } from 'antd';
 import React from 'react';
+import Link from 'next/link';
 import characterApi from '../../api/services/charactersApi';
 import episodeApi from '../../api/services/episodesApi';
 import styledCharacterPage from '../../styles/CharacterPage.styles';
@@ -87,15 +88,21 @@ const CharacterPage: React.FC<PropsType> = ({ character, episodes }) => {
           >
             <Menu.SubMenu key="subMenu1" title="Episodes:">
               {episodes.map((item) => (
+
                 <Menu.Item key={item.id} className="styled-characterpage__menu-item">
-                  <p>{item.name}</p>
+                  <Link href={`/episode/${item.id}`} key={item.id}>
+                    <a className="styled-characterpage__menu-item__a">
+                      <p>{item.name}</p>
+                    </a>
+                  </Link>
                 </Menu.Item>
+
               ))}
             </Menu.SubMenu>
           </Menu>
         </div>
       </div>
-    </div>);
+    </div >);
 };
 
 export default CharacterPage;
