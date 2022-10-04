@@ -1,4 +1,4 @@
-import { css } from "@emotion/css";
+import { css } from '@emotion/css';
 
 export default css`
   width: 100%;
