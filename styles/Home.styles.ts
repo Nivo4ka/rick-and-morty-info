@@ -37,6 +37,7 @@ const styledContainer = css`
   display: flex;
   align-items: center;
   height: 100%;
+  color: white;
 
   .ant-space-item {
     width: 100%;
@@ -69,6 +70,10 @@ const styledContainer = css`
     .anticon {
       color: white;
     }
+  }
+
+  .styled-container__rating {
+    color: #ff7700;
   }
 `;
 
