@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "./node_modules/.bin/eslint . -c .eslintrc.js --quiet --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "./node_modules/.bin/eslint . -c .eslintrc.js --quiet --fix --ext .js,.jsx,.ts,.tsx"
+    "lint:fix": "./node_modules/.bin/eslint . -c .eslintrc.js --quiet --fix --ext .js,.jsx,.ts,.tsx",
+    "typeorm-cli": "typeorm-ts-node-esm -d ./src/db/dataSource.ts",
+    "db:sync": "npm run typeorm-cli -- migration:generate -p src/db/migrations/sync",
+    "db:migrate:up": "npm run typeorm-cli -- migration:run",
+    "db:migrate:down": "npm run typeorm-cli -- migration:revert"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -16,14 +20,19 @@
     "@reduxjs/toolkit": "^1.8.5",
     "antd": "^4.23.3",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.3",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.8",
     "formik": "^2.2.9",
     "next": "12.3.1",
+    "pg": "^8.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.4",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
+    "typeorm": "^0.3.10",
     "yup": "^0.32.11"
   },
   "devDependencies": {

@@ -7,26 +7,17 @@ import React from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import Link from 'next/link';
+import reviewApi from '../api/services/reviewApi';
 import { styledContainer } from '../styles/ContactMePage.styles';
 
 // export const getServerSideProps: GetServerSideProps = async () => {
-//   // const data = await characterApi.getAllCharacters(+query.currentPage! || 1);
-//   // const info = data.data.info;
-//   // const characters = data.data.results;
-//   // let char = [];
-//   // char = characters.map(async (item) => {
-//   //   const data = await episodeApi.getEpisodeById(+item.episode[0].split('episode/')[1]);
-//   //   item.firstEpisode = data.data.name;
-//   //   return item;
-//   // });
-//   // const charactersRes = await Promise.all(char);
-//   // return {
-//   //   props: {
-//   //     info,
-//   //     characters: charactersRes,
-//   //     query,
-//   //   },
-//   // };
+//   const data = await reviewApi.addReview();
+//   console.log(data.data);
+//   return {
+//     props: {
+
+//     },
+//   };
 // };
 
 const contactSchema = yup.object().shape({
@@ -43,7 +34,10 @@ const ContactMe = () => {
     validationSchema: contactSchema,
     onSubmit: async (values) => {
       // eslint-disable-next-line no-console
-      console.log(values);
+      // console.log(values);
+      const data = await reviewApi.addReview(values);
+      // eslint-disable-next-line no-console
+      console.log(data.data);
     },
   });
 

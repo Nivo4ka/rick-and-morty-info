@@ -54,3 +54,11 @@ export type EpisodesResponseType = {
   info: InfoType;
   results: EpisodeType[];
 };
+
+export type RequestReviewType = {
+  name: string;
+  lastname: string;
+  notes: string;
+  rating: number;
+  agree: boolean;
+};

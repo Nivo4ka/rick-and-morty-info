@@ -9,18 +9,22 @@ import characterApi from '../../api/services/charactersApi';
 import episodeApi from '../../api/services/episodesApi';
 import styledCharacterPage from '../../styles/CharacterPage.styles';
 import type { CharacterType, EpisodeType } from '../../types/main.types';
+import { AxiosResponse } from 'axios';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const data = await characterApi.getCharacterById(+params!.id!);
-  const episodes = data.data.episode.map(async (item) => {
-    const data = await episodeApi.getEpisodeById(+item.split('episode/')[1]);
-    return data.data;
-  });
-  const episodeRes = await Promise.all(episodes);
+  // const episodes = data.data.episode.map(async (item) => {
+  //   const data = await episodeApi.getEpisodeById(+item.split('episode/')[1]);
+  //   return data.data;
+  // });
+  const episodeRes: AxiosResponse[] = await Promise.all(data.data.episode.map(async (item) => {
+    return episodeApi.getEpisodeById(+item.split('episode/')[1]);
+    // return data.data;
+  }));
   return {
     props: {
       character: data.data,
-      episodes: episodeRes,
+      episodes: episodeRes.map((item) => item.data),
     },
   };
 };
