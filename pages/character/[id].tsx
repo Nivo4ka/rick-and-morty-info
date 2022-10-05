@@ -4,6 +4,7 @@ import type { GetStaticProps, GetStaticPaths } from 'next';
 import { Menu } from 'antd';
 import React from 'react';
 import Link from 'next/link';
+import { LeftCircleOutlined } from '@ant-design/icons';
 import characterApi from '../../api/services/charactersApi';
 import episodeApi from '../../api/services/episodesApi';
 import styledCharacterPage from '../../styles/CharacterPage.styles';
@@ -67,6 +68,13 @@ const CharacterPage: React.FC<PropsType> = ({ character, episodes }) => {
       <Head>
         <title>{character.name}</title>
       </Head>
+      <div className="styled-contact-me__link-area">
+        <Link href="/">
+          <a className="">
+            <LeftCircleOutlined />
+          </a>
+        </Link>
+      </div>
       <div className="styled-characterpage__container">
         <h2>{character.name}</h2>
         <img

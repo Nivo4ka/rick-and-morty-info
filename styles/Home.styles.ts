@@ -32,7 +32,6 @@ const styledMainComp = css`
 const styledContainer = css`
   background: #202329;
   width: 100%;
-  max-width: 1280px;
   padding: 10px;
   display: flex;
   align-items: center;

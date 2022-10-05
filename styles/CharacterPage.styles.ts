@@ -7,11 +7,22 @@ export default css`
   align-items: center;
   background: #202329;
   color: white;
+  padding: 15px;
+  min-height: calc(100vh - 85px);
 
   h2 {
     padding: 15px 0;
     margin: 0;
     color: white;
+  }
+
+  .styled-contact-me__link-area {
+    width: 100%;
+    svg{
+      color: #ff7700;
+      width: 25px;
+      height: 25px;
+    }
   }
 
   .styled-card__name-point {
@@ -27,8 +38,6 @@ export default css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 15px 15px 15px;
-    min-height: calc(100vh - 85px);
   }
 
   .styled-characterpage__image {

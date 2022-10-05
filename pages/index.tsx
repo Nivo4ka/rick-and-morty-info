@@ -38,7 +38,7 @@ type PropsType = {
   };
 };
 
-const Home: React.FC<PropsType> = ({ info, characters, query }) => {
+const Home: React.FC<PropsType> = ({ info, characters }) => {
   const router = useRouter();
   const onChangePage = (page: number) => {
     router.push({
@@ -68,13 +68,18 @@ const Home: React.FC<PropsType> = ({ info, characters, query }) => {
 
         <Pagination
           simple
-          defaultCurrent={query.currentPage || 1}
+          defaultCurrent={+router.query.currentPage! || 1}
           total={info.count}
           pageSize={Math.ceil(info.count / info.pages)}
           onChange={onChangePage}
           className="styled-container__pagination"
         />
 
+          <Link href="/contact-me">
+          <a>
+            Contact me
+          </a>
+          </Link>
       </Space>
     </div>
   );
