@@ -1,34 +1,51 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getRepository } from '../../db/dataSource';
-import { Review } from '../../db/entities/Review.entity';
+import { getDataSource } from '../../db';
+import ReviewEntity from '../../db/entities/ReviewEntity';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Review>,
+  res: NextApiResponse<ReviewEntity>,
 ) {
   try {
+    const AppDataSource = await getDataSource();
+    const dbReview = AppDataSource.getRepository(ReviewEntity);
+    if (!AppDataSource.isInitialized) {
+      throw new Error('not connected');
+    }
     if (req.method !== 'POST') {
       throw new Error('incorrent request');
     }
-    const { name, lastname, rating, notes, agree } = req.body;
+    const { firstName, lastName, rating, notes, agree } = req.body;
 
-    if (!name || !lastname || !rating || !notes || !agree) {
+    if (!firstName || !lastName || !rating || !notes || !agree) {
       throw new Error('not all values');
     }
 
-    const newReview = new Review();
-    newReview.name = name;
-    newReview.lastname = lastname;
-    newReview.notes = notes;
-    newReview.rating = rating;
-    newReview.agree = agree;
-    // const rewRep = await getRepository();
-    // // rewRep = rewRep.getRepository(Review);
-    // const result = await rewRep.getRepository(Review).save(newReview);
+    // const newReview = new ReviewEntity();
+    // newReview.firstName = firstName;
+    // newReview.lastName = lastName;
+    // newReview.notes = notes;
+    // newReview.rating = rating;
+    // newReview.agree = agree;
 
-    const reviewRepository = await getRepository('Review');
+    console.log(dbReview.create({
+      firstName,
+      lastName,
+      notes,
+      rating,
+      agree,
+    }));
+    const newReview = dbReview.create({
+      firstName,
+      lastName,
+      notes,
+      rating,
+      agree,
+    });
+    console.log(newReview);
 
-    const result = await reviewRepository.save(newReview);
+    const result = await dbReview.save(newReview);
+    console.log('rgrg');
     return res.send(result);
   } catch (e) {
     return res.send(e.message);

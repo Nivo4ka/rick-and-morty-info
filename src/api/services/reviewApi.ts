@@ -1,9 +1,9 @@
-import type { Review } from '../../db/entities/Review.entity';
+import type ReviewEntity from '../../db/entities/ReviewEntity';
 import type { RequestReviewType } from '../../types/main.types';
 import instance from '../myApi';
 
 const addReview = (value: RequestReviewType) => {
-  return instance.post<Review>('/addReview', value);
+  return instance.post<ReviewEntity>('/addReview', value);
 };
 
 export default { addReview };

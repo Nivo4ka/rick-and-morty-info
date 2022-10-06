@@ -95,7 +95,6 @@ const CharacterPage: React.FC<PropsType> = ({ character, episodes }) => {
           >
             <Menu.SubMenu key="subMenu1" title="Episodes:">
               {episodes.map((item) => (
-
                 <Menu.Item key={item.id} className="styled-characterpage__menu-item">
                   <Link href={`/episode/${item.id}`} key={item.id}>
                     <a className="styled-characterpage__menu-item__a">
@@ -103,7 +102,6 @@ const CharacterPage: React.FC<PropsType> = ({ character, episodes }) => {
                     </a>
                   </Link>
                 </Menu.Item>
-
               ))}
             </Menu.SubMenu>
           </Menu>

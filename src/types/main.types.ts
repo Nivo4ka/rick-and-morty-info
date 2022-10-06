@@ -56,8 +56,8 @@ export type EpisodesResponseType = {
 };
 
 export type RequestReviewType = {
-  name: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   notes: string;
   rating: number;
   agree: boolean;

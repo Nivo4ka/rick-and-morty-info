@@ -1,9 +1,10 @@
+import 'reflect-metadata';
 import dotenv from 'dotenv';
 import path from 'path';
 
 const localEnv = dotenv.config({ path: path.normalize(`${__dirname}../../../../../.env`) }).parsed;
 const defaultEnv = dotenv.config({ path: path.normalize(`${__dirname}../../../../../default.env`) }).parsed;
-dotenv.config();
+
 const joinedEnv = {
   ...defaultEnv,
   ...localEnv,

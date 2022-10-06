@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import config from '../config';
-import { entities } from './entities';
+// import { entities } from './entities';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -11,12 +11,12 @@ const AppDataSource = new DataSource({
   database: config.db.dbName,
   synchronize: false,
   logging: false,
-  entities: [`${__dirname}/entities/*.entity`],
-  migrations: [`${__dirname}/migrations/*`],
+  entities: [`${__dirname}/entities/*.{ts,js}`],
+  migrations: [`${__dirname}/migrations/*.{ts,js}`],
   subscribers: [],
 });
 
-let connectedDataSource: DataSource | null = null;
+// let connectedDataSource: DataSource | null = null;
 
 // AppDataSource.initialize()
 //   .then(async () => {
@@ -37,24 +37,24 @@ let connectedDataSource: DataSource | null = null;
 //   });
 // };
 
-export const connectionDB = async () => {
-  try {
-    if (!connectedDataSource) {
-      connectedDataSource = await AppDataSource.initialize();
-    }
-    return connectedDataSource;
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log('db connection faild', err.message);
-  }
-};
+// export const connectionDB = async () => {
+//   try {
+//     if (!connectedDataSource) {
+//       connectedDataSource = await AppDataSource.initialize();
+//     }
+//     return connectedDataSource;
+//   } catch (err) {
+//     // eslint-disable-next-line no-console
+//     console.log('db connection faild', err.message);
+//   }
+// };
 
-export const getRepository = async (params: keyof typeof entities) => {
-  const dataSource = await connectionDB();
-  if (!dataSource) {
-    throw new Error('db not connected');
-  }
-  return dataSource.getRepository(entities[params]);
-};
+// export const getRepository = async (params: keyof typeof entities) => {
+//   const dataSource = await connectionDB();
+//   if (!dataSource) {
+//     throw new Error('db not connected');
+//   }
+//   return dataSource.getRepository(entities[params]);
+// };
 
-// export default AppDataSource;
+export default AppDataSource;

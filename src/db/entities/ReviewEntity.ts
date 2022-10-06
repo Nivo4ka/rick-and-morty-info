@@ -1,24 +1,26 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
-@Entity({ name: 'Review' })
-export class Review extends BaseEntity {
+@Entity({ name: 'review' })
+class ReviewEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
     id!: number;
 
   @Column({
-    type: 'string',
+    name: 'first_name',
+    type: 'varchar',
     nullable: false,
   })
-    name!: string;
+    firstName!: string;
 
   @Column({
-    type: 'string',
+    name: 'last_name',
+    type: 'varchar',
     nullable: false,
   })
-    lastname!: string;
+    lastName!: string;
 
   @Column({
-    type: 'string',
+    type: 'varchar',
     nullable: false,
   })
     notes!: string;
@@ -35,3 +37,4 @@ export class Review extends BaseEntity {
   })
     agree!: boolean;
 }
+export default ReviewEntity;

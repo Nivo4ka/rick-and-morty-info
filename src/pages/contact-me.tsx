@@ -10,8 +10,8 @@ import reviewApi from '../api/services/reviewApi';
 import { styledContainer } from '../styles/ContactMePage.styles';
 
 const contactSchema = yup.object().shape({
-  name: yup.string().required(),
-  lastname: yup.string().required(),
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
   rating: yup.number().min(1, 'you need rate').required(),
   notes: yup.string().required(),
   agree: yup.boolean().required().oneOf([true], 'You need agree'),
@@ -19,7 +19,7 @@ const contactSchema = yup.object().shape({
 
 const ContactMe = () => {
   const formik = useFormik({
-    initialValues: { name: '', lastname: '', rating: 0, notes: '', agree: false },
+    initialValues: { firstName: '', lastName: '', rating: 0, notes: '', agree: false },
     validationSchema: contactSchema,
     onSubmit: async (values) => {
       const data = await reviewApi.addReview(values);
@@ -49,27 +49,27 @@ const ContactMe = () => {
       >
         <Form.Item
           label="Your name"
-          name="name"
+          name="firstName"
           valuePropName="checked"
-          hasFeedback={!!formik.errors.name}
-          validateStatus={formik.errors.name && 'error'}
-          help={formik.errors.name}
+          hasFeedback={!!formik.errors.firstName}
+          validateStatus={formik.errors.firstName && 'error'}
+          help={formik.errors.firstName}
         >
           <Input
-            value={formik.values.name}
+            value={formik.values.firstName}
             onChange={formik.handleChange}
           />
         </Form.Item>
         <Form.Item
           label="Your lastname"
-          name="lastname"
+          name="lastName"
           valuePropName="checked"
-          hasFeedback={!!formik.errors.lastname}
-          validateStatus={formik.errors.lastname && 'error'}
-          help={formik.errors.lastname}
+          hasFeedback={!!formik.errors.lastName}
+          validateStatus={formik.errors.lastName && 'error'}
+          help={formik.errors.lastName}
         >
           <Input
-            value={formik.values.lastname}
+            value={formik.values.lastName}
             onChange={formik.handleChange}
           />
         </Form.Item>
