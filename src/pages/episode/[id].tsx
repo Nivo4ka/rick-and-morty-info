@@ -12,15 +12,15 @@ import type { CharacterType, EpisodeType } from '../../types/main.types';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const data = await episodeApi.getEpisodeById(+params!.id!);
-  const characters = data.data.characters.map(async (item) => {
-    const data = await characterApi.getCharacterById(+item.split('character/')[1]);
-    return data.data;
-  });
-  const characterRes = await Promise.all(characters);
+
+  const characters = data.data.characters.map((item) => item.split('character/')[1]);
+  const arrCh = characters.join();
+  const charactersRes = await characterApi.getCharacterByIds(arrCh);
+
   return {
     props: {
       episode: data.data,
-      characters: characterRes,
+      characters: charactersRes.data,
     },
   };
 };
@@ -38,7 +38,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   let dt = data;
   while (dt.info.next !== null) {
-    // eslint-enable no-await-in-loop next-line
     const { data } = await episodeApi.getAllEpisodes(+dt.info.next!.split('page=')[1]);
     dt = data;
     paths = paths.concat(dt.results.map((item) => {

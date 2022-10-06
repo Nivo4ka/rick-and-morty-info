@@ -13,4 +13,8 @@ const getCharacterById = (id: number) => {
   return instance.get<CharacterType>(`/character/${id}`);
 };
 
-export default { getAllCharacters, getCharacterById };
+const getCharacterByIds = (ids: string) => {
+  return instance.get<CharacterType[]>(`/character/${ids}`);
+};
+
+export default { getAllCharacters, getCharacterById, getCharacterByIds };

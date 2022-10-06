@@ -8,9 +8,9 @@
   "synchronize": false,
   "logging": false,
   "entities": [
-     "src/db/entity/**/*.ts"
+     "src/db/entity/**/*.entity.{js,ts}"
   ],
   "migrations": [
-     "src/db/migration/**/*.ts"
+     "src/db/migration/**/*.{js,ts}"
   ]
 }

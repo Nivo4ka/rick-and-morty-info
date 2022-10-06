@@ -1,20 +1,16 @@
-import { createConnection, Connection } from 'typeorm';
-import config from '../config';
+import type { DataSource } from 'typeorm';
+// import AppDataSource from './dataSource';
 
-const connection = async () => {
-  const conn = await createConnection({
-    type: 'postgres',
-    host: config.db.host,
-    port: config.db.port,
-    username: config.db.username,
-    password: config.db.password,
-    database: config.db.dbName,
-    synchronize: false,
-    logging: false,
-    entities: [`${__dirname}/entities/*`],
-    migrations: [`${__dirname}/migrations/*`],
-  });
-  return conn;
-};
+// let connectedDataSource: DataSource | null = null;
 
-export default connection;
+// export const connectionDB = async () => {
+//   try {
+//     if (!connectedDataSource) {
+//       connectedDataSource = await AppDataSource.initialize();
+//     }
+//     return connectedDataSource;
+//   } catch (err) {
+//     // eslint-disable-next-line no-console
+//     console.log('db connection faild', err.message);
+//   }
+// };

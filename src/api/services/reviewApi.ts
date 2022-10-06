@@ -1,4 +1,4 @@
-import type { Review } from '../../db/entities/Review';
+import type { Review } from '../../db/entities/Review.entity';
 import type { RequestReviewType } from '../../types/main.types';
 import instance from '../myApi';
 

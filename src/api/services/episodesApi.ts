@@ -13,4 +13,8 @@ const getEpisodeById = (id:number) => {
   return instance.get<EpisodeType>(`/episode/${id}`);
 };
 
-export default { getAllEpisodes, getEpisodeById };
+const getEpisodeByIds = (ids:string) => {
+  return instance.get<EpisodeType[]>(`/episode/${ids}`);
+};
+
+export default { getAllEpisodes, getEpisodeById, getEpisodeByIds };

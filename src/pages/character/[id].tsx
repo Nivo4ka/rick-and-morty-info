@@ -9,22 +9,18 @@ import characterApi from '../../api/services/charactersApi';
 import episodeApi from '../../api/services/episodesApi';
 import styledCharacterPage from '../../styles/CharacterPage.styles';
 import type { CharacterType, EpisodeType } from '../../types/main.types';
-import { AxiosResponse } from 'axios';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const data = await characterApi.getCharacterById(+params!.id!);
-  // const episodes = data.data.episode.map(async (item) => {
-  //   const data = await episodeApi.getEpisodeById(+item.split('episode/')[1]);
-  //   return data.data;
-  // });
-  const episodeRes: AxiosResponse[] = await Promise.all(data.data.episode.map(async (item) => {
-    return episodeApi.getEpisodeById(+item.split('episode/')[1]);
-    // return data.data;
-  }));
+
+  const episodes = data.data.episode.map((item) => item.split('episode/')[1]);
+  const arrEp = episodes.join();
+  const episodesRes = await episodeApi.getEpisodeByIds(arrEp);
+
   return {
     props: {
       character: data.data,
-      episodes: episodeRes.map((item) => item.data),
+      episodes: episodesRes.data,
     },
   };
 };
@@ -42,7 +38,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   let dt = data;
   while (dt.info.next !== null) {
-    // eslint-enable no-await-in-loop next-line
     const { data } = await characterApi.getAllCharacters(+dt.info.next!.split('page=')[1]);
     dt = data;
     paths = paths.concat(dt.results.map((item) => {

@@ -1,7 +1,6 @@
 import { FireOutlined, LeftCircleOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Rate } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import type { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import React from 'react';
 import * as yup from 'yup';
@@ -9,16 +8,6 @@ import { useFormik } from 'formik';
 import Link from 'next/link';
 import reviewApi from '../api/services/reviewApi';
 import { styledContainer } from '../styles/ContactMePage.styles';
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const data = await reviewApi.addReview();
-//   console.log(data.data);
-//   return {
-//     props: {
-
-//     },
-//   };
-// };
 
 const contactSchema = yup.object().shape({
   name: yup.string().required(),
@@ -33,8 +22,6 @@ const ContactMe = () => {
     initialValues: { name: '', lastname: '', rating: 0, notes: '', agree: false },
     validationSchema: contactSchema,
     onSubmit: async (values) => {
-      // eslint-disable-next-line no-console
-      // console.log(values);
       const data = await reviewApi.addReview(values);
       // eslint-disable-next-line no-console
       console.log(data.data);
