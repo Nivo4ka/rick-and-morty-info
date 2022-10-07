@@ -23,6 +23,19 @@ const styledHomeDiv = css`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .styled-home-div__main-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #202329;
+  }
+
+  .styled-nome-div__link {
+    padding: 0 0 15px;
+  }
 `;
 
 const styledMainComp = css`
@@ -30,13 +43,14 @@ const styledMainComp = css`
 `;
 
 const styledContainer = css`
-  background: #202329;
+  /* background: #202329; */
   width: 100%;
   padding: 10px;
   display: flex;
   align-items: center;
   height: 100%;
   color: white;
+  justify-content: center;
 
   .ant-space-item {
     width: 100%;

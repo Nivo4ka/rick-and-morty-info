@@ -55,6 +55,10 @@ export default css`
     align-items: flex-start;
   }
 
+  .ant-menu-root {
+    border-radius: 0.5rem;
+  }
+
   .ant-menu-sub.ant-menu-inline > .ant-menu-item {
     height: fit-content;
   }

@@ -32,35 +32,43 @@ const Home: React.FC<PropsType> = ({ info, characters }) => {
       <Head>
         <title>Rick & Morty DB</title>
       </Head>
-      <Space
-        direction="vertical"
-        align="center"
-        size="large"
-        className={styledContainer}
-      >
-        {characters.map((item, inx) => (
-          <Link key={inx} href={`/character/${item.id}`}>
-            <a className="styled-container__div">
-              <CardPerson person={item} />
-            </a>
-          </Link>
-        ))}
+      <div className="styled-home-div__main-area">
+        <Space
+          align="center"
+          size="large"
+          className={styledContainer}
+          wrap
+        >
+          {characters.map((item, inx) => (
+            <Link key={inx} href={`/character/${item.id}`}>
+              <a className="styled-container__div">
+                <CardPerson person={item} />
+              </a>
+            </Link>
+          ))}
+        </Space>
+        <Space
+          align="center"
+          size="large"
+          className={styledContainer}
+          wrap
+        >
+          <Pagination
+            simple
+            defaultCurrent={+router.query.currentPage! || 1}
+            total={info.count}
+            pageSize={Math.ceil(info.count / info.pages)}
+            onChange={onChangePage}
+            className="styled-container__pagination"
+          />
+        </Space>
 
-        <Pagination
-          simple
-          defaultCurrent={+router.query.currentPage! || 1}
-          total={info.count}
-          pageSize={Math.ceil(info.count / info.pages)}
-          onChange={onChangePage}
-          className="styled-container__pagination"
-        />
-
-          <Link href="/contact-me">
-          <a>
+        <Link href="/contact-me">
+          <a className="styled-nome-div__link">
             Contact me
           </a>
-          </Link>
-      </Space>
+        </Link>
+      </div>
     </div>
   );
 };

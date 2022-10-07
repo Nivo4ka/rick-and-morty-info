@@ -16,7 +16,6 @@ type PropsType = {
 };
 
 const CharacterPage: React.FC<PropsType> = ({ character, episodes }) => {
-  console.log(episodes);
   return (
     <div className={styledCharacterPage}>
       <Head>

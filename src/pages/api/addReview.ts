@@ -28,7 +28,7 @@ export default async function handler(
     newReview.rating = rating;
     newReview.agree = agree;
 
-    console.log(dbReview);
+    // console.log(dbReview);
     // const newReview = (await dbReview).create({
     //   firstName,
     //   lastName,
@@ -36,10 +36,10 @@ export default async function handler(
     //   rating,
     //   agree,
     // });
-    console.log(newReview);
+    // console.log(newReview);
 
     const result = await dbReview.save(newReview);
-    console.log('rgrg');
+    // console.log('rgrg');
     return res.send(result);
   } catch (e) {
     return res.send(e.message);
