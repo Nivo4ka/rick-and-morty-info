@@ -10,52 +10,6 @@ import episodeApi from '../../api/services/episodesApi';
 import styledCharacterPage from '../../styles/CharacterPage.styles';
 import type { CharacterType, EpisodeType } from '../../types/main.types';
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const data = await episodeApi.getEpisodeById(+params!.id!);
-
-  const characters = data.data.characters.map((item) => item.split('character/')[1]);
-  const arrCh = characters.join();
-  const charactersRes = await characterApi.getCharacterByIds(arrCh);
-
-  return {
-    props: {
-      episode: data.data,
-      characters: charactersRes.data,
-    },
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await episodeApi.getAllEpisodes(1);
-  let paths = [];
-  paths = data.results.map((item) => {
-    return {
-      params: {
-        id: `${item.id}`,
-      },
-    };
-  });
-
-  let dt = data;
-  while (dt.info.next !== null) {
-    const { data } = await episodeApi.getAllEpisodes(+dt.info.next!.split('page=')[1]);
-    dt = data;
-    paths = paths.concat(dt.results.map((item) => {
-      return {
-        params: {
-          id: `${item.id}`,
-        },
-      };
-    }));
-  }
-
-  const pathsRes = await Promise.all(paths);
-  return {
-    paths: pathsRes,
-    fallback: true,
-  };
-};
-
 type PropsType = {
   characters: CharacterType[];
   episode: EpisodeType;
@@ -101,6 +55,59 @@ const CharacterPage: React.FC<PropsType> = ({ characters, episode }) => {
         </div>
       </div>
     </div>);
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const data = await episodeApi.getEpisodeById(+params!.id!);
+
+  const characters = data.data.characters.map((item) => item.split('character/')[1]);
+  const arrCh = characters.join();
+  const charactersRes = [];
+  const dataCharacters = await characterApi.getCharacterByIds(arrCh);
+  // eslint-disable-next-line no-unused-expressions
+  Array.isArray(dataCharacters.data)
+    ? charactersRes.push(...dataCharacters.data)
+    : charactersRes.push(dataCharacters.data);
+
+  // const charactersRes = await characterApi.getCharacterByIds(arrCh);
+
+  return {
+    props: {
+      episode: data.data,
+      characters: charactersRes,
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await episodeApi.getAllEpisodes(1);
+  let paths = [];
+  paths = data.results.map((item) => {
+    return {
+      params: {
+        id: `${item.id}`,
+      },
+    };
+  });
+
+  let dt = data;
+  while (dt.info.next !== null) {
+    const { data } = await episodeApi.getAllEpisodes(+dt.info.next!.split('page=')[1]);
+    dt = data;
+    paths = paths.concat(dt.results.map((item) => {
+      return {
+        params: {
+          id: `${item.id}`,
+        },
+      };
+    }));
+  }
+
+  const pathsRes = await Promise.all(paths);
+  return {
+    paths: pathsRes,
+    fallback: true,
+  };
 };
 
 export default CharacterPage;

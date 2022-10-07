@@ -10,26 +10,6 @@ import characterApi from '../api/services/charactersApi';
 import episodeApi from '../api/services/episodesApi';
 import type { CharacterType, InfoType } from '../types/main.types';
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const data = await characterApi.getAllCharacters(+query.currentPage! || 1);
-  const info = data.data.info;
-  const characters = data.data.results;
-  let char = [];
-  char = characters.map(async (item) => {
-    const data = await episodeApi.getEpisodeById(+item.episode[0].split('episode/')[1]);
-    item.firstEpisode = data.data.name;
-    return item;
-  });
-  const charactersRes = await Promise.all(char);
-  return {
-    props: {
-      info,
-      characters: charactersRes,
-      query,
-    },
-  };
-};
-
 type PropsType = {
   info: InfoType;
   characters: CharacterType[];
@@ -86,3 +66,23 @@ const Home: React.FC<PropsType> = ({ info, characters }) => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const data = await characterApi.getAllCharacters(+query.currentPage! || 1);
+  const info = data.data.info;
+  const characters = data.data.results;
+  let char = [];
+  char = characters.map(async (item) => {
+    const data = await episodeApi.getEpisodeById(+item.episode[0].split('episode/')[1]);
+    item.firstEpisode = data.data.name;
+    return item;
+  });
+  const charactersRes = await Promise.all(char);
+  return {
+    props: {
+      info,
+      characters: charactersRes,
+      query,
+    },
+  };
+};
