@@ -6,6 +6,7 @@ import React from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import reviewApi from '../api/services/reviewApi';
 import { styledContainer } from '../styles/ContactMePage.styles';
 
@@ -18,13 +19,24 @@ const contactSchema = yup.object().shape({
 });
 
 const ContactMe = () => {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: { firstName: '', lastName: '', rating: 0, notes: '', agree: false },
     validationSchema: contactSchema,
     onSubmit: async (values) => {
+      router.push({
+        pathname: router.pathname,
+        query: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          rating: values.rating,
+          notes: values.notes,
+          agree: values.agree,
+        },
+      });
       const data = await reviewApi.addReview(values);
       // eslint-disable-next-line no-console
-      console.log(data.data);
+      console.log(data);
     },
   });
 

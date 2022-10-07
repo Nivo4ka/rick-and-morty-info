@@ -1,6 +1,22 @@
 import { DataSource } from 'typeorm';
+// import dotenv from 'dotenv';
 import config from '../config';
 // import { entities } from './entities';
+
+// const dotInfo = dotenv.config().parsed;
+// const AppDataSource = new DataSource({
+//   type: 'postgres',
+//   host: dotInfo!.DB_HOST,
+//   port: +dotInfo!.DB_PORT,
+//   username: dotInfo!.DB_USERNAME,
+//   password: dotInfo!.DB_PASSWORD,
+//   database: dotInfo!.DB_NAME,
+//   synchronize: false,
+//   logging: false,
+//   entities: [`${__dirname}/entities/*.{ts,js}`],
+//   migrations: [`${__dirname}/migrations/*.{ts,js}`],
+//   subscribers: [],
+// });
 
 const AppDataSource = new DataSource({
   type: 'postgres',

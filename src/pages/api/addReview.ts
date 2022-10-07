@@ -1,17 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getRepository } from '../../db';
-import ReviewEntity from '../../db/entities/ReviewEntity';
+// import { getRepository } from '../../db';
+// import { getDataSource } from '../../db';
+import { ReviewEntity } from '../../db';
+// import db from '../../db';
+import AppDataSource from '../../db/dataSource';
+// import ReviewEntity from '../../db/entities/ReviewEntity';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ReviewEntity>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  res: NextApiResponse<{ result: ReviewEntity | null }>,
 ) {
   try {
     // const AppDataSource = await getDataSource();
-    const dbReview = await getRepository('ReviewEntity');
+    // const dbReview = await getRepository('ReviewEntity');
     // if (!AppDataSource.isInitialized) {
     //   throw new Error('not connected');
     // }
+    await AppDataSource.initialize();
+    const repa = AppDataSource.getRepository(ReviewEntity);
     if (req.method !== 'POST') {
       throw new Error('incorrent request');
     }
@@ -21,27 +28,36 @@ export default async function handler(
       throw new Error('not all values');
     }
 
-    const newReview = new ReviewEntity();
-    newReview.firstName = firstName;
-    newReview.lastName = lastName;
-    newReview.notes = notes;
-    newReview.rating = rating;
-    newReview.agree = agree;
+    // const newReview = new ReviewEntity();
+    // newReview.firstName = firstName;
+    // newReview.lastName = lastName;
+    // newReview.notes = notes;
+    // newReview.rating = rating;
+    // newReview.agree = agree;
 
-    // console.log(dbReview);
-    // const newReview = (await dbReview).create({
-    //   firstName,
-    //   lastName,
-    //   notes,
-    //   rating,
-    //   agree,
-    // });
+    // const reviews = AppDataSource.getRepository(ReviewEntity);
+
+    // const res = dbReview.find().then((ress) => console.log(ress));
+    // console.log(res);
+
+    const newReview = repa.create({
+      firstName,
+      lastName,
+      notes,
+      rating,
+      agree,
+    });
     // console.log(newReview);
 
-    const result = await dbReview.save(newReview);
-    // console.log('rgrg');
-    return res.send(result);
+    const result = await repa.save(newReview);
+    // const ress = await dbReview.findOne({
+    //   where: {
+    //     id: result.id,
+    //   },
+    // });
+
+    return res.json({ result });
   } catch (e) {
-    return res.send(e.message);
+    return res.status(500).send({ result: null });
   }
 }
